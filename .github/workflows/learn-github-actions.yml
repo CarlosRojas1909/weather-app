@@ -1,0 +1,32 @@
+name: learn-github-actions
+on: [push]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Start App
+        run: |
+          npm i
+          npm start &
+          echo "npm has started"
+
+      # - name: ping localhost 3000
+      #   run: ping -c 4 http://localhost
+
+      - name: Checkout weather test repo
+        uses: actions/checkout@v2
+        with:
+          repository: JCbayfisher/weather-test
+          fetch-depth: 0
+          ref: master
+
+      - name: Cypress run
+        run: |
+          npm i
+          npm run cypress:test
